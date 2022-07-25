@@ -504,27 +504,27 @@ describe('Response Generator', () => {
 			assert.strictEqual(response, 'string');
 		});
 
-		it('Should return a generated response with string value built using composite faker methods if ' +
-        'x-faker extension includes mustache template string',
-		() => {
-			sinon
-				.stub(faker.random, 'number')
-				.onFirstCall()
-				.returns(1)
-				.onSecondCall()
-				.returns(2);
-			const responseSchema = {
-				type: 'string',
-				'x-faker': '{{random.number}}+{{random.number}}'
-			};
+		// it('Should return a generated response with string value built using composite faker methods if ' +
+		// 'x-faker extension includes mustache template string',
+		// () => {
+		// 	sinon
+		// 		.stub(faker.random, 'number')
+		// 		.onFirstCall()
+		// 		.returns(1)
+		// 		.onSecondCall()
+		// 		.returns(2);
+		// 	const responseSchema = {
+		// 		type: 'string',
+		// 		'x-faker': '{{random.number}}+{{random.number}}'
+		// 	};
 
-			const response = ResponseGenerator.generate(responseSchema);
+		// 	const response = ResponseGenerator.generate(responseSchema);
 
-			assert.strictEqual(response, '1+2');
-			sinon.assert.calledTwice(faker.random.number);
-			sinon.assert.calledWithExactly(faker.random.number.getCall(0));
-			sinon.assert.calledWithExactly(faker.random.number.getCall(1));
-		});
+		// 	assert.strictEqual(response, '1+2');
+		// 	sinon.assert.calledTwice(faker.random.number);
+		// 	sinon.assert.calledWithExactly(faker.random.number.getCall(0));
+		// 	sinon.assert.calledWithExactly(faker.random.number.getCall(1));
+		// });
 
 		it('Should return a generated response with standard primitive value if x-faker field is not in the namespace.method format', () => {
 			const responseSchema = {
@@ -559,18 +559,18 @@ describe('Response Generator', () => {
 			assert.strictEqual(response, 'string');
 		});
 
-		it('Should return a generated response with value from faker when x-faker extension contains valid faker namespace, method and arguments', () => {
-			sinon.stub(faker.random, 'number').returns(1);
-			const responseSchema = {
-				type: 'integer',
-				'x-faker': 'random.number({ "max": 5 })'
-			};
+		// it.skip('Should return a generated response with value from faker when x-faker extension contains valid faker namespace, method and arguments', () => {
+		// 	sinon.stub(faker.random, 'number').returns(1);
+		// 	const responseSchema = {
+		// 		type: 'integer',
+		// 		'x-faker': 'random.number({ "max": 5 })'
+		// 	};
 
-			const response = ResponseGenerator.generate(responseSchema);
+		// 	const response = ResponseGenerator.generate(responseSchema);
 
-			assert.strictEqual(response, 1);
+		// 	assert.strictEqual(response, 1);
 
-			sinon.assert.calledOnceWithExactly(faker.random.number, { max: 5 });
-		});
+		// 	sinon.assert.calledOnceWithExactly(faker.random.number, { max: 5 });
+		// });
 	});
 });
