@@ -1,0 +1,60 @@
+{
+  "name": "open-api-mocker",
+  "version": "1.11.1",
+  "description": "A mock server based in Open API Specification",
+  "main": "lib/open-api-mocker.js",
+  "bin": {
+    "open-api-mocker": "lib/open-api-mocker-cli.js"
+  },
+  "scripts": {
+    "lint": "eslint ./lib ./tests",
+    "test": "mocha -R nyan --recursive --require tests/bootstrap.js tests/",
+    "coverage:ci": "nyc --reporter=lcov mocha --recursive tests/",
+    "coverage": "nyc npm test"
+  },
+  "files": [
+    "lib/"
+  ],
+  "keywords": [
+    "api",
+    "openapi",
+    "schema",
+    "mock",
+    "mocking",
+    "mock-server"
+  ],
+  "author": "Joaquin Ormaechea",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "7.32.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-plugin-import": "2.24.2",
+    "husky": "4.3.8",
+    "mocha": "9.2.2",
+    "mock-require": "3.0.3",
+    "nyc": "15.1.0",
+    "sinon": "11.1.2"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^7.3.0",
+    "ajv": "6.12.6",
+    "ajv-openapi": "2.0.0",
+    "body-parser": "1.19.0",
+    "chokidar": "3.5.2",
+    "colors": "1.4.0",
+    "cookie-parser": "1.4.5",
+    "cors": "2.8.5",
+    "express": "4.17.1",
+    "js-yaml": "4.1.0",
+    "json-refs": "3.0.15",
+    "lllog": "1.1.2",
+    "micro-memoize": "4.0.9",
+    "parse-prefer-header": "1.0.0",
+    "superstruct": "0.6.2",
+    "yargs": "16.2.0"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  }
+}
