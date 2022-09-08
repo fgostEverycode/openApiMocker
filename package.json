@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^7.3.0",
-    "ajv": "8.11.0",
+    "ajv": "6.12.6",
     "ajv-openapi": "2.0.0",
     "body-parser": "1.19.0",
     "chokidar": "3.5.2",
