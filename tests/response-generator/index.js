@@ -465,18 +465,18 @@ describe('Response Generator', () => {
 
 		it('Should return a generated response with value generated using relevant faker method if x-faker extension is ' +
 			'present in and method exists in faker', async () => {
-				sinon.stub(faker.name, 'firstName').returns('bob');
-				const responseSchema = {
-					type: 'string',
-					'x-faker': 'name.firstName'
-				};
+			sinon.stub(faker.name, 'firstName').returns('bob');
+			const responseSchema = {
+				type: 'string',
+				'x-faker': 'name.firstName'
+			};
 
-				const response = await ResponseGenerator.generate(responseSchema);
+			const response = await ResponseGenerator.generate(responseSchema);
 
-				assert.strictEqual(response, 'bob');
+			assert.strictEqual(response, 'bob');
 
-				sinon.assert.calledOnceWithExactly(faker.name.firstName);
-			});
+			sinon.assert.calledOnceWithExactly(faker.name.firstName);
+		});
 
 		it('Should return a generated response with date in ISO format if type is date and x-faker is used', async () => {
 			sinon.stub(faker.date, 'recent').returns(new Date(Date.UTC(2000, 0, 1)));
@@ -494,15 +494,15 @@ describe('Response Generator', () => {
 
 		it('Should return a generated response with standard primitive value if x-faker field is ' +
 			'present but method does not exist in faker', async () => {
-				const responseSchema = {
-					type: 'string',
-					'x-faker': 'idonotexist'
-				};
+			const responseSchema = {
+				type: 'string',
+				'x-faker': 'idonotexist'
+			};
 
-				const response = await ResponseGenerator.generate(responseSchema);
+			const response = await ResponseGenerator.generate(responseSchema);
 
-				assert.strictEqual(response, 'string');
-			});
+			assert.strictEqual(response, 'string');
+		});
 
 		// it('Should return a generated response with string value built using composite faker methods if ' +
 		// 'x-faker extension includes mustache template string',
