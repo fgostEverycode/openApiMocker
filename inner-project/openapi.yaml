@@ -1,0 +1,273 @@
+openapi: 3.0.3
+info:
+  version: 0.0.1
+  title: InSuit CORE
+  description: Herramienta de accesibilidad para páginas web
+  license:
+    name: MIT
+  contact:
+    name: API Support
+    url: 'http://www.everycode.es/support'
+    email: support@everycode.es
+servers:
+  - url: 'https://localhost:8080'
+    description: Development server
+    variables:
+      port:
+        enum:
+          - '8080'
+        default: '8080'
+paths:
+  '/i4tproject/{host}/jsresourceo':
+    get:
+      operationId: getJSProjectScript
+      summary: Devuelve el script de recursos del proyecto
+      description: Devuelve el archivo javascript de recursos del proyecto
+      parameters:
+        - name: host
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: version
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Recupera el archivo JS del proyecto
+          content:
+            text/javascript:
+              schema:
+                type: string
+        '500':
+          description: Hay un error al intentar descargar el Javascript
+  '/i4tproject/{host}/config':
+    get:
+      operationId: getProjectConfig
+      summary: Configuración de un dominio
+      description: Devuelve el objeto de configuración de un dominio
+      parameters:
+        - name: host
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: version
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Se devuelve la configuración correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  UUID:
+                    type: string
+                    x-faker: string.alphanumeric(20)
+                  css:
+                    type: string
+                    x-faker: 'helpers.arrayElement([''body {background-color: powderblue;} h1   {color: blue;} p    {color: red;}'', ''.red { color: red; } .thick{ font-size:20px; } .green { color:green; }''])'
+                  code:
+                    type: string
+                    x-faker: 'helpers.arrayElement(["AGUASVALENCIA","COCEMFECV","ES_MINISINCLUSION","ALBORAYA","COCEMFEVALENCIA","ES_MINISSANIDAD","ALCOBENDASORG","COGAMI","ES_MITES","APCA","COMEXCR","ES_MUSEOMARSANTAPOLA","AR_BANCOICBC","CONSUM","ES_PRINCIPADODEASTURIAS","AR_BANCOITAU","COPE","ES_PRODETUR","AR_REDLINK","CORTESCASTILLALAMANCHA","ES_PUERTOSANTANDER","ASAMBLEAMURCIA","CORTESCASTILLAYLEON","ES_RCCELTA","AYTOADEJE","CPEARLYINTERVENTION","ES_SALVAMENTOMARITIMO","AYTOALBORAYA","CRUZROJA","ES_TURISMOCABANES","AYTOALCALAHENARES","DIPUALAVA","ES_TURISMOSANTAPOLA","AYTOALHAMADEMURCIA","DIPUAVILA","ES_VILLADEMOYA","AYTOALMENDRALEJO","DIPUAVILAV8","ES_VOLEMVALENCIA","AYTOBENIDORM","DIPUCADIZ","ES_XANADU","AYTOBONREPOS","DIPUCASTELLON","FGV","AYTOCACERES","DIPUCIUDADREAL","FUNDACIONREINASOFIA","AYTOCADIZ","DIPUCUENCA","FUNDACIONSEUR","AYTOCALVIA","DIPUGRANADA","FUNESPANA","AYTOCANDELARIA","DIPUHUELVA","FUNTESO","AYTOCARTAGENA","DIPUHUESCA","GCSC","AYTOCIEZA","DIPULEON","GOBIERNOASTURIAS","AYTOCIUDADREAL","DIPUORENSE","GOBIERNOCANARIAS","AYTOCUENCA","DIPUSEVILLA","GOBIERNOCASTILLALAMANCHA","AYTOELCHE","DIPUSORIA","GOBIERNOCASTILLALEON","AYTOELDA","EMACGRUPO","GOBIERNOMURCIA","AYTOESPLUGUESLLOBREGAT","ENBUENAEDAD","GOBIERNONAVARRA","AYTOGIRONA","ES_ACUAMED","GRUPOPETERSEN","AYTOGRAMENET","ES_AIS","GRUPOVITHAS","AYTOHELLIN","ES_ANPIR","GVA","AYTOHUESCA","ES_ASEMDIS","HOSPITALESNISA","AYTOINGENIO","ES_ASPERGA","HUBSPOT","AYTOLAGUNADEDUERO","ES_AYTOALBACETE","IBERCAJA","AYTOLLORETMAR","ES_AYTOALCOY","IDRICA","AYTOLLOSREALEJOS","ES_AYTOALGETE"])'
+                  version:
+                    type: string
+                    example: TST-00.00.01-SNAPSHOT
+                  isv8:
+                    type: boolean
+                  config:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  model:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        atts:
+                          type: object
+                          additionalProperties:
+                            type: string
+                        contentType:
+                          type: string
+                        fn:
+                          type: string
+                        query:
+                          type: string
+                        regex:
+                          type: string
+                  texts:
+                    type: object
+                    additionalProperties:
+                      type: string
+                  dictionary:
+                    type: object
+                    additionalProperties:
+                      type: string
+        '404':
+          description: El dominio accesible desde el cual se ha llamado no existe o no está cargado en el servidor
+    head:
+      operationId: checkProjectExist
+      summary: Existencia de un dominio
+      description: 'Si un dominio existe, devuelve un código de correcto. Si no, devuelve código de no encontrado'
+      parameters:
+        - name: host
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: El dominio existe
+        '404':
+          description: El dominio no existe o no está cargado en el servidor
+  '/i4tservice/{host}/pdf':
+    get:
+      operationId: downloadPDF
+      summary: Descarga un PDF
+      description: Descarga un PDF a través del servidor cuando no se puede descargar con la API fetch
+      parameters:
+        - name: host
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: url
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: timestamp
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Se descarga el PDF correctamente
+          content:
+            application/pdf:
+              schema:
+                type: string
+                example:
+                  externalValue: https://www.insuit.net/wp-content/uploads/2015/01/inSuit_brochure.pdf
+        '500':
+          description: Hay un error al intentar descargar el PDF
+  '/i4tservice/{host}/header':
+    get:
+      operationId: getHeadersFromURL
+      summary: Cabeceras de una url
+      description: Devuelve las cabeceras al hacer GET a una url
+      parameters:
+        - name: host
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: url
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Devuelve las cabeceras de una petición GET a una página específica
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+                example:
+                  content-type: application/pdf
+        '404':
+          description: No se han podido extraer las cabeceras de una petición GET a una url
+  '/i4tservice/{host}/asr/{lang}':
+    post:
+      operationId: processAudioInASR
+      summary: Analiza un audio y devuelve su significado
+      description: Analiza el audio enviado y devuelve un array con posibilidades
+      parameters:
+        - name: host
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: lang
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: timestamp
+          in: query
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  description: Contenido del audio grabado
+      responses:
+        '200':
+          description: Se descarga el PDF correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    confidence:
+                      type: number
+                      x-faker: 'number.float({ min: 40, max: 99, precision: 0.01 })'
+                    recognition:
+                      type: string
+                      x-faker: 'helpers.arrayElement(["principal","raíz", "uno", "dos"])'
+                    semanticValue:
+                      type: string
+        '500':
+          description: Hay un error al intentar descargar el PDF
+  '/i4tservice/{host}/tts/{lang}/{contenttype}':
+    post:
+      operationId: generateAudioFromTTS
+      summary: Configuración de proyecto
+      description: Devuelve el objeto de configuración de un proyecto
+      parameters:
+        - name: host
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: lang
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: contenttype
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: version
+          in: query
+          schema:
+            type: string
+      responses:
+        '200': 
+          description: Se devuelve el audio generado en formato .ogg o .mp3
+          content:
+            audio/ogg:
+              schema:
+                type: string
+                format: binary
+                example:
+                  externalValue: https://www--insuit--net.insuit.net/i4tservice/i18nservice/it-IT/error_x-fast.ogg 
+        '500':
+          description: El dominio accesible desde el cual se ha llamado no existe o no está cargado en el servidor

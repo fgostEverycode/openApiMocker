@@ -49,6 +49,7 @@
     "json-refs": "3.0.15",
     "lllog": "1.1.2",
     "micro-memoize": "4.0.9",
+    "node-fetch": "^3.3.1",
     "parse-prefer-header": "1.0.0",
     "superstruct": "0.6.2",
     "yargs": "16.2.0"
